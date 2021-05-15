@@ -1,1 +1,1 @@
-Data wrangling
+Data wrangling from wide to long to recreate LabKey format. Data is taken from CB.  Takes ~ 15s for 21k people and 5Mb of data. Pivoting works fine, we just need to validate if this is exactly what Thanos gets from LabKey
