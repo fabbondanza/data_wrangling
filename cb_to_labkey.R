@@ -52,14 +52,14 @@ colnames(data_no_arrays) <- gsub('-0.0','', colnames(data_no_arrays)) # Update n
 # Pivot phenotypes with arrays
 data_to_pivot <- data %>%
   select(c(i, starts_with(phenotypes_with_arrays))) %>%
-  purrr::discard(., ~all(is.na(.))) %>%
+  purrr::discard(., ~all(is.na(.))) %>% # Remove empty columns, just a sanity check
   rename(participant_id = i) %>%
-  mutate_all(as.character) %>%
-  pivot_longer(-participant_id) %>%
-  separate(name, into = c('temp','index'),sep = "\\.") %>%
+  mutate_all(as.character) %>% # To avoid data incompabilities
+  pivot_longer(-participant_id) %>% # Pivto data
+  separate(name, into = c('temp','array'),sep = "\\.") %>% # Create a list of arrays to then spread the data
   pivot_wider(names_from = temp, values_from = value) %>%
-  select(-index) %>%
-  unnest(everything())
+  select(-array) %>%
+  unnest(everything()) # Data is returned as a dataframe of list
 colnames(data_to_pivot) <- gsub('-0','', colnames(data_to_pivot)) # Update names
 
 # Merge the data
